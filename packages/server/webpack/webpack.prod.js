@@ -11,6 +11,7 @@ const productionConfiguration = require('./webpack.common')
 
 // Webpack Plugins
 const CompressionPlugin = require('compression-webpack-plugin')
+const { BundleStatsWebpackPlugin } = require('bundle-stats')
 
 // Configuration Files
 const pkg = require(path.resolve(__dirname, '..', 'package.json'))
@@ -83,5 +84,15 @@ productionConfiguration
 			maxSize: 30000,
 		},
 	])
+
+productionConfiguration.plugin('BundleStats').use(BundleStatsWebpackPlugin, [
+	{
+		outDir: config.output.directory,
+		compare: true,
+		baseline: true,
+		html: true,
+		json: false,
+	},
+])
 
 module.exports = productionConfiguration.toConfig()
