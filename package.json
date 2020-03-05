@@ -1,0 +1,12 @@
+{
+  "name": "@araclx/aeropods",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^3.18.5",
+    "prettier": "1.19.1",
+    "prettier-plugin-packagejson": "^2.0.10"
+  }
+}
