@@ -16,6 +16,7 @@ const webpackChain = require('webpack-chain')
 
 // Webpack Plugins
 const WebpackBar = require('webpackbar')
+const Dotenv = require('dotenv-webpack')
 
 // BaseConfiguration Files
 const pkg = require(path.resolve(__dirname, '..', 'package.json'))
@@ -149,6 +150,16 @@ BaseConfiguration.plugin('WebpackBar').use(WebpackBar, [
 		color: 'green',
 		profile: 'true',
 		fancy: 'true',
+	},
+])
+
+BaseConfiguration.plugin('Dotenv').use(Dotenv, [
+	{
+		path: '../.env', // load this now instead of the ones in '.env'
+		safe: true, // load '.env.example' to verify the '.env' variables are all set. Can also be a string to a different file.
+		systemvars: true, // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
+		silent: true, // hide any errors
+		defaults: false, // load '.env.defaults' as the default values if empty.
 	},
 ])
 

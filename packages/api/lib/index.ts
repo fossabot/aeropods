@@ -4,10 +4,13 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import morgan from 'morgan'
 import signale from 'signale'
-import { createConnection, Connection } from 'typeorm'
+// import { createConnection, Connection } from 'typeorm'
 
-import { UserRouter } from './routers'
+// import { UserRouter } from './routers'
 
+/**
+ * Main class dedicated for running and configuring server.
+ */
 class Server {
 	/* Basic Declarations */
 	public app: express.Application
@@ -31,16 +34,16 @@ class Server {
 	}
 
 	public routes(): void {
-		this.app.use('/', new UserRouter().router)
+		// this.app.use('/', new UserRouter().router)
 	}
 
 	private async database(): Promise<void> {
-		const connection: Connection = await createConnection({
-			type: 'mongodb',
-			host: 'localhost',
-			port: 27017,
-			database: 'test',
-		})
+		// const connection: Connection = await createConnection({
+		// 	type: 'mongodb',
+		// 	host: 'localhost',
+		// 	port: 27017,
+		// 	database: 'test',
+		// })
 	}
 
 	/** Main execution point of whole application. */
@@ -48,6 +51,7 @@ class Server {
 		this.app.listen(this.PORT, () => {
 			signale.success('Your application started successfully!')
 			signale.info('Application running on http://localhost:%d', this.PORT)
+			console.log('')
 		})
 	}
 }

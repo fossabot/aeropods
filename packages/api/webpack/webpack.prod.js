@@ -11,7 +11,7 @@ const productionConfiguration = require('./webpack.common')
 
 // Webpack Plugins
 const CompressionPlugin = require('compression-webpack-plugin')
-const { BundleStatsWebpackPlugin } = require('bundle-stats')
+const { BundleStatsWebpackPlugin } = require('bundle-stats-webpack-plugin')
 
 // Configuration Files
 const pkg = require(path.resolve(__dirname, '..', 'package.json'))
@@ -35,6 +35,8 @@ productionConfiguration
 	// Logging Options
 	// This is setted to none because we're using 'friendly-errors-plugin'.
 	.stats('normal')
+
+productionConfiguration.devtool('source-map')
 
 productionConfiguration.optimization.splitChunks({
 	chunks: 'initial',
@@ -87,11 +89,11 @@ productionConfiguration
 
 productionConfiguration.plugin('BundleStats').use(BundleStatsWebpackPlugin, [
 	{
-		outDir: config.output.directory,
+		outDir: './stats',
 		compare: true,
 		baseline: true,
 		html: true,
-		json: false,
+		json: true,
 	},
 ])
 

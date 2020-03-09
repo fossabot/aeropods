@@ -14,6 +14,7 @@ const WebpackNotifierPlugin = require('webpack-notifier')
 const WebpackBar = require('webpackbar')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
 const NodemonPlugin = require('nodemon-webpack-plugin')
+// const Jarvis = require('webpack-jarvis')
 
 // Configuration Files
 const pkg = require(path.resolve(__dirname, '..', 'package.json'))
@@ -33,12 +34,12 @@ developmentConfiguration.mode('development')
 
 developmentConfiguration.watch(true)
 
-developmentConfiguration.devtool('source-map')
+developmentConfiguration.devtool('inline-source-map')
 
 developmentConfiguration
 	// Logging Options
 	// This is setted to none because we're using 'friendly-errors-plugin'.
-	.stats('none')
+	.stats('normal')
 
 /*
  *   __  __           _       _
@@ -76,25 +77,44 @@ developmentConfiguration.module
  * 	BaseConfiguration of plugins is contained bellow.
  */
 
-developmentConfiguration
-	.plugin('FriendlyErrorsWebpackPlugin')
-	.use(FriendlyErrorsWebpackPlugin, [
-		{
-			compilationSuccessInfo: {
-				messages: ['You application is running here http://localhost:3600'],
-				notes: [
-					'Some additionnal notes to be displayed unpon successful compilation \n',
-				],
-			},
-			onErrors: function() {},
-			clearConsole: true,
-			additionalFormatters: [],
-			additionalTransformers: [],
-		},
-	])
+/* Friendly-Errors are extreally cool, but we've tempomary disabled them. */
+
+// developmentConfiguration
+// 	.plugin('FriendlyErrorsWebpackPlugin')
+// 	.use(FriendlyErrorsWebpackPlugin, [
+// 		{
+// 			compilationSuccessInfo: {
+// 				messages: ['You application is running here http://localhost:3600'],
+// 				notes: [
+// 					'Some additionnal notes to be displayed unpon successful compilation \n',
+// 				],
+// 			},
+// 			onErrors: function() {},
+// 			clearConsole: true,
+// 			additionalFormatters: [],
+// 			additionalTransformers: [],
+// 		},
+// 	])
+
+// Currently we're thinking about usage Jarvis,
+// because as far we don't see potential usecases.
+// https://github.com/zouhir/jarvis
+
+// developmentConfiguration.plugin('Jarvis').use(Jarvis, [
+// 	{
+// 		port: 1337,
+// 		host: 'localhost',
+// 	},
+// ])
 
 developmentConfiguration
 	.plugin('WebpackNotifierPlugin')
 	.use(WebpackNotifierPlugin, [{ title: '@areopods/server' }])
+
+developmentConfiguration.plugin('Nodemonik').use(NodemonPlugin, [
+	{
+		quiet: true,
+	},
+])
 
 module.exports = developmentConfiguration.toConfig()
