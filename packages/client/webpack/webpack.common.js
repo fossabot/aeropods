@@ -9,7 +9,7 @@
 
 // Node Modules
 const path = require('path')
-const fs = require('fs')
+// const fs = require('fs')
 // const webpack = require('webpack')
 
 // Chain BaseConfiguration of Webpack
@@ -25,15 +25,15 @@ const config = require('./webpack.settings')
 
 // Customized solution for usage of external modules, in Webpack.
 // That's necessary to avoid thousents of errors when compiling app.
-var nodeModules = {}
+// var nodeModules = {}
 
-fs.readdirSync('node_modules')
-	.filter(function(x) {
-		return ['.bin'].indexOf(x) === -1
-	})
-	.forEach(function(mod) {
-		nodeModules[mod] = 'commonjs ' + mod
-	})
+// fs.readdirSync('node_modules')
+// 	.filter(function(x) {
+// 		return ['.bin'].indexOf(x) === -1
+// 	})
+// 	.forEach(function(mod) {
+// 		nodeModules[mod] = 'commonjs ' + mod
+// 	})
 
 // Base Webpack BaseConfiguration
 const BaseConfiguration = new webpackChain()

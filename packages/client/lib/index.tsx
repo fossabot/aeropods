@@ -4,7 +4,10 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import { Home } from './containers'
 import { CTA } from './components'
 
-import './style.css'
+/* Tailwind CSS
+ * Global Import of TailwindCSS which allows to
+ * use it in any component. */
+import './index.css'
 
 export const Foo = () => <h1>Foo Page</h1>
 export const Bar = () => <h1>Bar Page</h1>

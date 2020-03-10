@@ -1,5 +1,6 @@
 {
   "name": "@aeropods/client",
+  "version": "0.0.1",
   "scripts": {
     "dev": "wp --silent --config webpack.config.js",
     "devtools": "react-devtools"
@@ -40,6 +41,7 @@
     "compression-webpack-plugin": "^3.1.0",
     "css-loader": "^3.4.2",
     "cssnano": "^4.1.10",
+    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-loader": "^3.0.3",
@@ -61,9 +63,10 @@
     "ts-loader": "^6.2.1",
     "typescript": "^3.8.2",
     "typescript-eslint": "^0.0.1-alpha.0",
-    "webpack": "^4.41.6",
+    "webpack": "^4.42.0",
     "webpack-chain": "^6.4.0",
     "webpack-nano": "^0.8.1",
+    "webpack-notifier": "^1.8.0",
     "webpack-plugin-ramdisk": "^0.1.4",
     "webpack-plugin-serve": "^0.12.1",
     "webpack-shell-plugin": "^0.5.0",

@@ -1,0 +1,38 @@
+version:            '3'
+services:
+  client:
+    container_name: aeropods-client
+    image:          aeropods/client:latest
+    command:        yarn run dev
+    build:
+      context:      ../../packages/client
+      dockerfile:   Dockerfile.dev
+    ports:
+      - 8080:8080
+    volumes:
+      - ../../packages/client:/client
+      - /client/node_modules
+  api:
+    container_name: aeropods-api
+    image:          aeropods/api:latest
+    command:        yarn run dev
+    build:
+      context:      ../../packages/api
+      dockerfile:   Dockerfile.dev
+    ports:
+      - 3600:3600
+    volumes:
+      - ../../packages/api:/api
+      - /api/node_modules
+  # Currently we're working on a server too, there will come proxy and some other important features.
+  # server:
+  #   container_name: aeropods-server
+  #   image: nginx/nginx:latest
+  #   build:
+  #     context: ../../packages/server
+  #     dockerfile: Dockerfile.dev
+  #   ports:
+  #     - 80:80
+  #   links:
+  #     - client
+  #     - api

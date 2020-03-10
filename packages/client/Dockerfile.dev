@@ -1,13 +1,13 @@
-FROM node:12
+FROM node:12-alpine
 
 ENV NODE_ENV=development
 
-WORKDIR /api
+WORKDIR /client
 
 COPY package.json package.json ./
 
 RUN yarn install
 
-EXPOSE 3600
+EXPOSE 8080
 
 CMD ["yarn", "run", "dev"]

@@ -109,7 +109,6 @@ developmentConfiguration.plugin('Serve').use(Serve, [
 		liveReload: true,
 		status: false,
 		port: 8080,
-		host: 'localhost',
 		static: config.output.directory,
 		log: {
 			level: 'error',
