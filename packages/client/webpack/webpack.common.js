@@ -48,10 +48,6 @@ const BaseConfiguration = new webpackChain()
  * 	BaseConfiguration of plugins is contained bellow.
  */
 
-BaseConfiguration.entry('main')
-	.add(config.entries.main)
-	.end()
-
 BaseConfiguration
 	// Target of compilation
 	.target(config.target)

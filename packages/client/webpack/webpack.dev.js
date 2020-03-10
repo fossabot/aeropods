@@ -31,6 +31,12 @@ const config = require('./webpack.settings')
  * 	Configurations of plugins is contained bellow.
  */
 
+developmentConfiguration
+	.entry('main')
+	.add(config.entries.main)
+	.add('webpack-plugin-serve/client')
+	.end()
+
 developmentConfiguration.mode('development')
 
 developmentConfiguration.watch(true)
@@ -49,7 +55,8 @@ developmentConfiguration
  *  | |  | | (_) | (_| | |_| | |  __/\__ \
  *  |_|  |_|\___/ \__,_|\__,_|_|\___||___/
  *
- *	BaseConfiguration of specified universal loaders.
+ *	Configuration of different loaders.
+ * 	- ESlint (eslint-loader)
  */
 
 // prettier-ignore

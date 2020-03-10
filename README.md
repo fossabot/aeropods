@@ -22,4 +22,6 @@ There are few different ways of using this boilerplate, probably the most deserv
 ### Docker
 Currently there are two commands related to Docker:
 - `yarn run docker:dev:build`, this step sometimes throws errors but don't care about that and just jump into next command, we're working on fixing that issue.
-- `yarn run docker:dev:start`
+- `yarn run docker:dev:start`.
+
+If you want to use a `react-devtools` you can additionally run a `yarn run dev:tools`.

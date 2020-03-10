@@ -26,6 +26,11 @@ const config = require('./webpack.settings')
  * 	Configurations of plugins is contained bellow.
  */
 
+productionConfiguration
+	.entry('main')
+	.add(config.entries.main)
+	.end()
+
 productionConfiguration.mode('production')
 
 productionConfiguration.watch(false)

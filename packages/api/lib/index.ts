@@ -7,7 +7,7 @@ import morgan from 'morgan'
 import signale from 'signale'
 // import { createConnection, Connection } from 'typeorm'
 
-// import { UserRouter } from './routers'
+import { UserRouter } from './routers'
 
 /**
  * Main class dedicated for running and configuring server.
@@ -35,7 +35,9 @@ class Server {
 	}
 
 	public routes(): void {
-		// this.app.use('/', new UserRouter().router)
+		this.app.use('/', (req, res) => {
+			res.json('Welcome from API Proxy')
+		})
 	}
 
 	private async database(): Promise<void> {
