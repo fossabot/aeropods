@@ -11,8 +11,8 @@
   },
   "scripts": {
     "webpack-defaults": "webpack-defaults",
-    "docker:dev:build": "docker-compose -f 'docker/aeropods/docker-compose.dev.yml' up -d --build",
-    "docker:dev:start": "docker-compose -f 'docker/aeropods/docker-compose.dev.yml' up -d",
+    "dev:build:d": "docker-compose -f 'docker/aeropods/docker-compose.dev.yml' up -d --build",
+    "dev:start:d": "docker-compose -f 'docker/aeropods/docker-compose.dev.yml' up -d",
     "dev:tools": "yarn workspace @aeropods/client run devtools"
   }
 }

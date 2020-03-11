@@ -16,12 +16,18 @@ enableGlobalCache: false
 nodeLinker: node-modules
 ```
 
+## Packages
+`@araclx/aeropods` actually offers a three well-designed packages:
+- `@aeropods/server`, highly customized Nginx server with load-balacing, proxies and much more.
+- `@aeropods/client`, well-designed solution for building client-side applications powered by `react`.
+- `@aeropods/api`, to be remaked due to some lacks.
+
 ## How to use?
 There are few different ways of using this boilerplate, probably the most deserved one is a enviroment on Docker which supports HMR, because you're avoiding compatibility issues, but local running of this boilerplate is also an option.
 
 ### Docker
 Currently there are two commands related to Docker:
-- `yarn run docker:dev:build`, this step sometimes throws errors but don't care about that and just jump into next command, we're working on fixing that issue.
-- `yarn run docker:dev:start`.
+- `yarn run dev:build:d`, this step sometimes throws errors but don't care about that and just jump into next command, we're working on fixing that issue.
+- `yarn run dev:start:d`.
 
 If you want to use a `react-devtools` you can additionally run a `yarn run dev:tools`.

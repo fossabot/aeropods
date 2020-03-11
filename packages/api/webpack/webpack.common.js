@@ -76,6 +76,10 @@ BaseConfiguration.resolve.extensions
 	.add('.ts')
 	.add('.js')
 	.add('.json')
+	.add('.c')
+	.add('.cpp')
+	.add('.wasm')
+	.add('.graphql')
 	.end()
 
 BaseConfiguration.resolve.modules
@@ -94,7 +98,39 @@ BaseConfiguration.externals(nodeModules)
  *	BaseConfiguration of specified universal loaders.
  */
 
-// prettier-ignore
+BaseConfiguration.module
+	.rule('cppCompilation')
+	.test(/\.(c|cpp)$/)
+	.use('cppWasmLoader')
+	.loader('cpp-wasm-loader')
+	.options({
+		// emccFlags: (existingFlags: string[], mode?: "wasm"|"asmjs" ) => string[],
+		// emccPath: String,
+		// fetchFiles: Boolean,
+		// memoryClass: Boolean,
+		// asmJs: Boolean,
+		// wasm: Boolean,
+		// fullEnv: Boolean
+	})
+
+BaseConfiguration.module
+	.rule('wasmCompilation')
+	.test(/\.wasm$/)
+	.use('wasmLoader')
+	.loader('wasm-loader')
+
+BaseConfiguration.module
+	.rule('graphqlLoader')
+	.test(/\.graphql?$/)
+	.use('graphqlLoader')
+	.loader('webpack-graphql-loader')
+	.options({
+		// validate: true,
+		// schema: "./path/to/schema.json",
+		// removeUnusedFragments: true
+		// etc. See "Loader Options" below
+	})
+
 BaseConfiguration.module
 	.rule('threadedCompilation')
 	.test(/\.ts?$/)
@@ -132,6 +168,7 @@ BaseConfiguration.module
 			'@babel/proposal-object-rest-spread',
 		],
 	})
+	.end()
 
 /*
  *   ____  _             _
