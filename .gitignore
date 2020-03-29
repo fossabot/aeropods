@@ -27,3 +27,6 @@ yarn-error.log*
 # Ediort Configs
 .idea
 .vscode
+
+# Cache
+docker/aeropods/.cache
