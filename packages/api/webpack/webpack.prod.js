@@ -1,100 +1,116 @@
-// Node Modules
+// Basic Modules
 const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
 
-// Chain Configuration of Webpack
-// https://www.npmjs.com/package/webpack-chain
-
-const webpackChain = require('webpack-chain')
-const productionConfiguration = require('./webpack.common')
-
 // Webpack Plugins
-const CompressionPlugin = require('compression-webpack-plugin')
-const { BundleStatsWebpackPlugin } = require('bundle-stats-webpack-plugin')
+const bar = require('webpackbar')
+const nodemon = require('nodemon-webpack-plugin')
+const dotenv = require('dotenv-webpack')
+const compress = require('compression-webpack-plugin')
+const errors = require('friendly-errors-webpack-plugin')
+
+// Externals
+const nodeExternals = require('webpack-node-externals')
 
 // Configuration Files
 const pkg = require(path.resolve(__dirname, '..', 'package.json'))
-const config = require('./webpack.settings')
 
-/*
- *   ____
- *  | __ )  __ _ ___  ___
- *  |  _ \ / _` / __|/ _ \
- *  | |_) | (_| \__ \  __/
- *  |____/ \__,_|___/\___|
- *
- * 	Configurations of plugins is contained bellow.
- */
+module.exports = {
+	mode: 'production',
+	watch: false,
+	devtool: 'inline-source-map',
+	stats: 'all',
 
-productionConfiguration.mode('production')
+	target: 'node',
 
-productionConfiguration.watch(false)
-
-productionConfiguration
-	// Logging Options
-	// This is setted to none because we're using 'friendly-errors-plugin'.
-	.stats('normal')
-
-productionConfiguration.devtool('source-map')
-
-productionConfiguration.optimization.splitChunks({
-	chunks: 'initial',
-	cacheGroups: {
-		commons: {
-			test: /[\\/]node_modules[\\/]/,
-			name: 'vendor',
-			chunks: 'initial',
-		},
+	entry: {
+		main: path.join(__dirname, '..', 'src', 'index.ts'),
 	},
-})
 
-/*
- *   __  __           _       _
- *  |  \/  | ___   __| |_   _| | ___  ___
- *  | |\/| |/ _ \ / _` | | | | |/ _ \/ __|
- *  | |  | | (_) | (_| | |_| | |  __/\__ \
- *  |_|  |_|\___/ \__,_|\__,_|_|\___||___/
- *
- *	BaseConfiguration of specified universal loaders.
- */
-
-/*
- *   ____  _             _
- *  |  _ \| |_   _  __ _(_)_ __  ___
- *  | |_) | | | | |/ _` | | '_ \/ __|
- *  |  __/| | |_| | (_| | | | | \__ \
- *  |_|   |_|\__,_|\__, |_|_| |_|___/
- *                 |___/
- *
- * 	BaseConfiguration of plugins is contained bellow.
- */
-
-productionConfiguration.plugin('CompressionPlugin').use(CompressionPlugin, [
-	{
-		filename: 'bundle.gz',
-		cache: true,
-		algorithm: 'gzip',
+	output: {
+		filename: 'bundle.js',
+		path: path.join(__dirname, '..', 'dist'),
+		chunkFilename: '[id].chunk.js',
+		publicPath: path.join(__dirname, '..', 'dist', 'public'),
+		pathinfo: false,
 	},
-])
 
-productionConfiguration
-	.plugin('AggresiveSplitting')
-	.use(webpack.optimize.AggressiveSplittingPlugin, [
-		{
-			minSize: 10000,
-			maxSize: 30000,
-		},
-	])
-
-productionConfiguration.plugin('BundleStats').use(BundleStatsWebpackPlugin, [
-	{
-		outDir: './stats',
-		compare: true,
-		baseline: true,
-		html: true,
-		json: true,
+	resolve: {
+		extensions: ['.ts', '.js', '.json'],
+		modules: ['node_modules', path.resolve(__dirname, '..', 'src')],
 	},
-])
 
-module.exports = productionConfiguration.toConfig()
+	module: {
+		rules: [
+			{
+				test: /\.ts?$/,
+				exclude: /node_modules/,
+				use: [
+					{
+						loader: 'cache-loader',
+					},
+					{
+						loader: 'thread-loader',
+						options: {
+							workers: 4,
+							workerParallelJobs: 450,
+							workerNodeArgs: ['--max-old-space-size=1024'],
+							poolRespawn: false,
+							poolTimeout: 3600,
+							poolParallelJobs: 500,
+							name: 'typescript-pool',
+						},
+					},
+					{
+						loader: 'ts-loader',
+						options: {
+							happyPackMode: true,
+							transpileOnly: true,
+						},
+					},
+					{
+						loader: 'babel-loader',
+						options: {
+							compact: false,
+							presets: ['@babel/preset-env', '@babel/preset-typescript'],
+							plugins: [
+								'@babel/plugin-transform-runtime',
+								[
+									'@babel/plugin-proposal-decorators',
+									{
+										legacy: true,
+									},
+								],
+								'@babel/proposal-class-properties',
+								'@babel/proposal-object-rest-spread',
+							],
+						},
+					},
+				],
+			},
+		],
+	},
+
+	externals: [nodeExternals()],
+
+	plugins: [
+		new compress({
+			test: 'bundle.js',
+			filename: 'bundle.gz',
+			cache: true,
+			algorithm: 'gzip',
+			threshold: 10240,
+			minRatio: 0.8,
+		}),
+		new nodemon({
+			quiet: true,
+		}),
+		new bar({
+			name: '@aeropods/api',
+			color: 'green',
+			profile: 'true',
+			fancy: 'true',
+		}),
+	],
+}
