@@ -5,11 +5,8 @@ import cors from 'cors'
 import morgan from 'morgan'
 import signale from 'signale'
 import 'reflect-metadata'
-import { createConnection, Connection } from 'typeorm'
 
 import { SampleRouter, UserRouter } from './routers'
-import { User } from './entity'
-
 /**
  * Main class dedicated for running and configuring server.
  */
@@ -38,27 +35,6 @@ class Server {
 		this.app.use('/user', new UserRouter().router)
 	}
 
-	public async database(): Promise<void> {
-		const connection = await createConnection({
-			type: 'cockroachdb',
-			host: 'cockroach',
-			port: 26257,
-			username: 'root',
-			password: '',
-			database: 'sandbox',
-			synchronize: true,
-			logging: false,
-			cache: {
-				type: 'redis',
-				options: {
-					host: 'redis',
-					port: 6379,
-				},
-			},
-			entities: [User],
-		}).catch(e => signale.error(e))
-	}
-
 	/** Main execution point of whole application. */
 	public launchup(): void {
 		this.app.listen(3600, () => {
@@ -72,4 +48,3 @@ class Server {
 const application = new Server()
 
 application.launchup()
-application.database()
