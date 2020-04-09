@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
-import { Home } from './containers'
+import { Home, Dashboard } from './containers'
 import { CTA } from './components'
 
 /* Tailwind CSS
@@ -18,7 +18,11 @@ class Index extends React.Component<any, any> {
 			<React.Fragment>
 				<Router>
 					<Switch>
-						<Route exact path="/" component={CTA} />
+						<Route exact path="/">
+							<Dashboard>
+								<CTA />
+							</Dashboard>
+						</Route>
 						<Route path="/foo" component={Foo} />
 						<Route path="/bar" component={Bar} />
 					</Switch>

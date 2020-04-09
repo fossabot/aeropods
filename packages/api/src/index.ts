@@ -19,7 +19,6 @@ class Server {
 		this.app = express()
 		this.middleware()
 		this.routes()
-		this.database()
 	}
 
 	public middleware(): void {
