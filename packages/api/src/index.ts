@@ -7,9 +7,7 @@ import signale from 'signale'
 import 'reflect-metadata'
 
 import { SampleRouter, UserRouter } from './routers'
-/**
- * Main class dedicated for running and configuring server.
- */
+
 class Server {
 	/* Basic Declarations */
 	public app: express.Application
@@ -21,6 +19,7 @@ class Server {
 		this.routes()
 	}
 
+	/* Middleware of server */
 	public middleware(): void {
 		this.app.use(bodyParser.json())
 		this.app.use(bodyParser.urlencoded({ extended: false }))
@@ -29,12 +28,13 @@ class Server {
 		this.app.use(morgan('dev'))
 	}
 
+	/* Routers contained in application */
 	public routes(): void {
 		this.app.use('/', new SampleRouter().router)
 		this.app.use('/user', new UserRouter().router)
 	}
 
-	/** Main execution point of whole application. */
+	/** Main execution point of whole application, this function starts a server at 3600 port, and it's not recommended to change it because it's actually configured in Nginx. */
 	public launchup(): void {
 		this.app.listen(3600, () => {
 			signale.success('Your application started successfully!')

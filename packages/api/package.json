@@ -4,8 +4,6 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build2": "wp --config webpack/webpack.prod.js",
-    "dev2": "wp --silent --config webpack/webpack.dev.js",
     "dev": "ts-node-dev --watch src --respawn src/index.ts",
     "build": "ts-node src/index.ts"
   },
