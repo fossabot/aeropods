@@ -1,0 +1,18 @@
+{
+  "name": "@araclx/aeropods",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^3.18.5",
+    "prettier": "1.19.1",
+    "prettier-plugin-packagejson": "^2.0.10"
+  },
+  "scripts": {
+    "webpack-defaults": "webpack-defaults",
+    "dev:build:d": "docker-compose -f 'docker/aeropods/docker-compose.dev.yml' up -d --build",
+    "dev:start:d": "docker-compose -f 'docker/aeropods/docker-compose.dev.yml' up -d",
+    "dev:tools": "yarn workspace @aeropods/client run devtools"
+  }
+}

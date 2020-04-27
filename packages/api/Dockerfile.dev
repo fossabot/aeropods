@@ -1,0 +1,13 @@
+FROM node:12
+
+ENV NODE_ENV=development
+
+WORKDIR /api
+
+COPY package.json package.json ./
+
+RUN yarn install
+
+EXPOSE 3600
+
+CMD ["yarn", "run", "dev"]

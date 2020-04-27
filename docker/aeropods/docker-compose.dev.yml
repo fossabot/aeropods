@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+  # React container which builds static files.
+  client:
+    container_name: aeropods-client
+    image: 'aeropods/client:latest'
+    command: 'yarn run dev'
+    build:
+      context: ../../packages/client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ../../packages/client:/client
+      - /client/node_modules
+  # Node.js container which holds express application.
+  api:
+    container_name: aeropods-api
+    image: 'aeropods/api:latest'
+    command: 'yarn run dev'
+    build:
+      context: ../../packages/api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ../../packages/api:/api
+      - /api/node_modules
+  # Nginx container which connects a @aeropods/api and @aeropods/client services - providing access on localhost:80 to client, and localhost:80/api/ to API. In future there will be third service responsible for website and @aeropods/client will be moved to localhost:80/app/
+  server:
+    container_name: aeropods-server
+    image: 'aeropods/server:latest'
+    build:
+      context: ../../packages/server
+      dockerfile: Dockerfile.dev
+    ports:
+      - '80:80'
+    links:
+      - client
+      - api
