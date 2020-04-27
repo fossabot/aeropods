@@ -1,91 +1,36 @@
 version: '3.7'
 services:
-    # Service: @aeropods/client
-    # Development service of client, with HMR.
-    client:
-        container_name: aeropods-client
-        image: 'aeropods/client:latest'
-        command: 'yarn run dev'
-        build:
-            context: ../../packages/client
-            dockerfile: Dockerfile.dev
-        volumes:
-            - ../../packages/client:/client
-            - /client/node_modules
-    api:
-        container_name: aeropods-api
-        image: 'aeropods/api:latest'
-        command: 'yarn run dev'
-        build:
-            context: ../../packages/api
-            dockerfile: Dockerfile.dev
-        volumes:
-            - ../../packages/api:/api
-            - /api/node_modules
-    server:
-        container_name: aeropods-server
-        image: 'aeropods/server:latest'
-        build:
-            context: ../../packages/server
-            dockerfile: Dockerfile.dev
-        ports:
-            - '80:80'
-        links:
-            - client
-            - api
-    mongodb:
-        container_name: aeropods-mongodb
-        image: mongo:latest
-        ports:
-          - '27017:27017'
-        links:
-          - api
-    # Cockroach Mini-Cluster
-    # Cluster build on 3 databases
-    cockroach:
-        container_name: aeropods-cockroach
-        image: cockroachdb/cockroach:latest
-        command: start --insecure --join=cockroach,cockroach2,cockroach3
-        ports:
-          - "26257:26257"
-          - "8081:8080"
-        volumes:
-          - ./.cache:/cockroach/cockroach-data
-    cockroach2:
-        container_name: aeropods-cockroach2
-        image: cockroachdb/cockroach:latest
-        command: start --insecure --join=cockroach,cockroach2,cockroach3
-        volumes:
-          - ./.cache:/cockroach2/cockroach-data
-    cockroach3:
-        container_name: aeropods-cockroach3
-        image: cockroachdb/cockroach:latest
-        command: start --insecure --join=cockroach,cockroach2,cockroach3
-        volumes:
-          - ./.cache:/cockroach3/cockroach-data
-    redis:
-        image: "redis:latest"
-        command: redis-server
-        ports:
-         - "6379:6379"
-        volumes:
-            - .cache/redis/data:/var/lib/redis
-            - .cache/redis/redis.conf:/usr/local/etc/redis/redis.conf
-        environment:
-            - REDIS_REPLICATION_MODE=master
-    # prisma:
-    #   container_name: aeropods-prisma
-    #   image: prismagraphql/prisma:1.34
-    #   restart: always
-    #   ports:
-    #     - '4466:4466'
-    #   environment:
-    #       PRISMA_CONFIG: |
-    #         port: 4466
-    #         databases:
-    #           default:
-    #             connector: postgres
-    #             host: cockroach
-    #             port: 26257
-    #             user: root
-    #             password: ''
+  # React container which builds static files.
+  client:
+    container_name: aeropods-client
+    image: 'aeropods/client:latest'
+    command: 'yarn run dev'
+    build:
+      context: ../../packages/client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ../../packages/client:/client
+      - /client/node_modules
+  # Node.js container which holds express application.
+  api:
+    container_name: aeropods-api
+    image: 'aeropods/api:latest'
+    command: 'yarn run dev'
+    build:
+      context: ../../packages/api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ../../packages/api:/api
+      - /api/node_modules
+  # Nginx container which connects a @aeropods/api and @aeropods/client services - providing access on localhost:80 to client, and localhost:80/api/ to API. In future there will be third service responsible for website and @aeropods/client will be moved to localhost:80/app/
+  server:
+    container_name: aeropods-server
+    image: 'aeropods/server:latest'
+    build:
+      context: ../../packages/server
+      dockerfile: Dockerfile.dev
+    ports:
+      - '80:80'
+    links:
+      - client
+      - api
