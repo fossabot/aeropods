@@ -5,6 +5,5 @@
 	"semi": false,
 	"proseWrap": "always",
 	"printWidth": 80,
-  "singleQuote": true,
-  "parser": "typescript"
+  "singleQuote": true
 }
