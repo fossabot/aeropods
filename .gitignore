@@ -30,4 +30,4 @@ yarn-error.log*
 .vscode
 
 # Cache
-docker/aeropods/.cache
+.cache

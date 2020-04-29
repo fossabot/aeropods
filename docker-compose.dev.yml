@@ -6,10 +6,10 @@ services:
     image: 'aeropods/client:latest'
     command: 'yarn run dev'
     build:
-      context: ../../packages/client
+      context: ./packages/client
       dockerfile: Dockerfile.dev
     volumes:
-      - ../../packages/client:/client
+      - ./packages/client:/client
       - /client/node_modules
   # Node.js container which holds express application.
   api:
@@ -17,17 +17,17 @@ services:
     image: 'aeropods/api:latest'
     command: 'yarn run dev'
     build:
-      context: ../../packages/api
+      context: ./packages/api
       dockerfile: Dockerfile.dev
     volumes:
-      - ../../packages/api:/api
+      - ./packages/api:/api
       - /api/node_modules
   # Nginx container which connects a @aeropods/api and @aeropods/client services - providing access on localhost:80 to client, and localhost:80/api/ to API. In future there will be third service responsible for website and @aeropods/client will be moved to localhost:80/app/
   server:
     container_name: aeropods-server
     image: 'aeropods/server:latest'
     build:
-      context: ../../packages/server
+      context: ./packages/server
       dockerfile: Dockerfile.dev
     ports:
       - '80:80'
@@ -46,19 +46,25 @@ services:
       - POSTGRES_DB=${DATABASE_NAME}
     volumes:
       - ./.cache/postgres:/var/lib/postgresql/data
-  # Experimental Prisma service which will be integraded into @aeropods/api package in incomming versions as a secondary option for database management.
-  prisma:
-    container_name: aeropods-prisma
-    image: prismagraphql/prisma:1.34
+  # InfluxDB
+  influxdb:
+    container_name: aeropods-influx
+    image: influxdb:latest
     ports:
-      - 4466:4466
+      - 8086:8086
+      - 2003:2003
     environment:
-      PRISMA_CONFIG: |
-        port: 4466
-        databases:
-          default:
-            connector: postgres
-            host: postgres
-            port: 5432
-            user: ${DATABASE_USERNAME}
-            password: ${DATABASE_PASSWORD}
+      - INFLUXDB_GRAPHITE_ENABLED=true
+      - INFLUXDB_DB=aeropods
+      - INFLUXDB_ADMIN_USER=aeropods
+      - INFLUXDB_ADMIN_PASSWORD=aeropods
+    volumes:
+      - ./.cache/influxdb:/var/lib/influxdb
+  # Chronograf
+  chronograf:
+    container_name: aeropods-chronograf
+    image: chronograf:latest
+    ports:
+      - 8888:8888
+    volumes:
+      - ./.cache/chronograf:/var/lib/chronograf
