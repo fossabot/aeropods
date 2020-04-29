@@ -51,6 +51,11 @@ class Server {
 		)
 	}
 
+	/**
+	 * Database service contained in main server class.
+	 */
+	public database(): void {}
+
 	/** Main execution point of whole application, this function starts a server at 3600 port, and it's not recommended to change it because it's actually configured in Nginx. */
 	public launchup(): void {
 		this.app.listen(3600, () => {
