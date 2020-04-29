@@ -8,6 +8,13 @@ COPY package.json package.json ./
 
 RUN yarn install
 
+# Prisma initialization
+
+RUN npm install -g prisma
+RUN prisma init --endpoint http://prisma:4466
+RUN prisma deploy
+RUN prisma generate
+
 EXPOSE 3600
 
 CMD ["yarn", "run", "dev"]

@@ -34,3 +34,31 @@ services:
     links:
       - client
       - api
+  # Postgres database container, which is used by @aeropods/api service, whole configuration is based on .env files so please make sure you set important variables in your .env file.
+  postgres:
+    container_name: aeropods-postgres
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${DATABASE_USERNAME}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    volumes:
+      - ./.cache/postgres:/var/lib/postgresql/data
+  # Experimental Prisma service which will be integraded into @aeropods/api package in incomming versions as a secondary option for database management.
+  prisma:
+    container_name: aeropods-prisma
+    image: prismagraphql/prisma:1.34
+    ports:
+      - 4466:4466
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        databases:
+          default:
+            connector: postgres
+            host: postgres
+            port: 5432
+            user: ${DATABASE_USERNAME}
+            password: ${DATABASE_PASSWORD}
