@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "6e358a67-27f9-4922-b041-a28fe0a1bf35",
+		"name": "@aeropods/api",
+		"description": "Collection dedicated for `@araclx/aeropods` project.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Utility Endpoints",
+			"item": [
+				{
+					"name": "Pacakge Infromation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}",
+							"host": [
+								"{{URL}}"
+							]
+						},
+						"description": "Default router in project. Shows basic information about package such as name, version and description. In future there should be additional description of routers or point to Postman documentation which will help users to know what's contained in API."
+					},
+					"response": []
+				},
+				{
+					"name": "Postman Documentation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/postman",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"postman"
+							]
+						},
+						"description": "Request for Postman documentation of whole API."
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Users Endpoints",
+			"item": [
+				{
+					"name": "All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/user",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\": \"Jakub Olan\",\n\"email\": \"jakub.olan001@gmail.com\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/user",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Specified User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/user/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID of specific user."
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

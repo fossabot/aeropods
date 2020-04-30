@@ -19,6 +19,8 @@ services:
     build:
       context: ./packages/api
       dockerfile: Dockerfile.dev
+    environment:
+      - DATABASE_URL=postgresql://ziqiln:ziqiln@postgres:5432/mydb?schema=sandbox
     volumes:
       - ./packages/api:/api
       - /api/node_modules
