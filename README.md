@@ -1,3 +1,5 @@
+![aeropods_cover](./assets/cover.png)
+
 # `@araclx/aeropods`
 
 Aeropods is a collection of common boilerplates that aims to simplify your
